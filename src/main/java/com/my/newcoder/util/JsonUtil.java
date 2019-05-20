@@ -11,6 +11,7 @@ public class JsonUtil
     private static final Logger logger = LoggerFactory.getLogger(JsonUtil.class);
 
     public static int ANONYMOUS_USERID = 16;  //Id=16的用户代表匿名用户
+    public static int SYSTEM_USERID = 17;  //管理员Id
 
     public static String getJSONString (int code)
     {

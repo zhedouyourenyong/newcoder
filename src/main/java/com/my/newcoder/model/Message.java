@@ -14,4 +14,15 @@ public class Message
     private Date createdDate;
     private int hasRead;
     private String conversationId;
+
+    public String getConversationId ()
+    {
+        if(fromId < toId)
+        {
+            return String.format("%d_%d", fromId, toId);
+        } else
+        {
+            return String.format("%d_%d", toId, fromId);
+        }
+    }
 }
