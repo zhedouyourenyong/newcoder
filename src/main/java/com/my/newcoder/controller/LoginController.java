@@ -1,6 +1,9 @@
 package com.my.newcoder.controller;
 
 
+import com.my.newcoder.async.EventModel;
+import com.my.newcoder.async.EventProducer;
+import com.my.newcoder.async.EventType;
 import com.my.newcoder.configuration.Constant;
 import com.my.newcoder.service.UserService;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +28,8 @@ public class LoginController
 
     @Autowired
     private UserService userService;
+    @Autowired
+    EventProducer eventProducer;
 
     //用户注册
     @RequestMapping(path = {"/reg/"}, method = {RequestMethod.POST})
@@ -72,6 +77,15 @@ public class LoginController
                 {
                     cookie.setMaxAge(3600 * 6);  //有效期六个小时
                 }
+
+                //假设这里是登录异常
+
+                EventModel test=new EventModel(EventType.LOGIN)
+                        .setExt("username", username)
+                        .setExt("email", "1124212685@qq.com")
+                        .setActorId((int)map.get("userId"));
+                eventProducer.fireEvent(test);
+
                 response.addCookie(cookie);
                 if(StringUtils.isNotBlank(next))
                 {
