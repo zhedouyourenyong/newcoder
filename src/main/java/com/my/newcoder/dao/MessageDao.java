@@ -28,8 +28,8 @@ public interface MessageDao
 
 
     @Select({"select ",SELECT_FIELDS," from",TABLE_NAME," where conversation_id=#{conversationId} order by id desc limit #{offset}, #{limit}"})
-    List<Message> getConversationDetail(@Param("conversationId") String conversationId, @Param("offset") int offset, @Param("limit") int limit);
+    List<Message> getConversationDetail (@Param("conversationId") String conversationId, @Param("offset") int offset, @Param("limit") int limit);
 
     @Select({"SELECT ",INSERT_FIELDS,", COUNT(id) AS id FROM (SELECT * FROM ",TABLE_NAME," WHERE to_id=#{userId} OR from_id=#{userId} ORDER BY id DESC) AS tmp GROUP BY conversation_id ORDER BY created_date DESC LIMIT #{offset}, #{limit}"})
-    List<Message> getConversationList(@Param("userId") int userId,@Param("offset") int offset, @Param("limit") int limit);
+    List<Message> getConversationList (@Param("userId") int userId, @Param("offset") int offset, @Param("limit") int limit);
 }

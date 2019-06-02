@@ -79,7 +79,6 @@ public class LoginController
                 }
 
                 //假设这里是登录异常
-
                 EventModel test=new EventModel(EventType.LOGIN)
                         .setExt("username", username)
                         .setExt("email", "1124212685@qq.com")

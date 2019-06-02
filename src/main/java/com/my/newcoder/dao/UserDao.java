@@ -12,17 +12,17 @@ public interface UserDao
     String INSERT_FILEDS=" name,password,salt,headUrl ";
 
     @Insert({"insert into ",TABLE_NAME,"(",INSERT_FILEDS,")","values (#{name},#{password},#{salt},#{headUrl})"})
-    int addUser(User user);
+    int addUser (User user);
 
     @Select({"select *"," from ",TABLE_NAME," where id = #{id}"})
-    User selectUserById(int id);
+    User selectUserById (int id);
 
     @Delete({"delete from ",TABLE_NAME," where id = #{id}"})
-    void deleteUesrById(int id);
+    void deleteUesrById (int id);
 
     @Update({"update ",TABLE_NAME," set password = #{password} where id = #{id}"})
-    void updatePassword(User user);
+    void updatePassword (User user);
 
     @Select({"select * from ",TABLE_NAME," where name= #{userName}"})
-    User selectByName(String userName);
+    User selectByName (String userName);
 }

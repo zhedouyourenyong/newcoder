@@ -69,10 +69,17 @@ public class EventConsumer
             {
                 while (true)
                 {
-                    if(!redis.hasKey(key))
-                        continue;
-                    String event = redis.opsForList().rightPop(key,0,TimeUnit.SECONDS);
-                    dispather(event);
+                    try
+                    {
+                        if(!redis.hasKey(key))
+                            continue;
+                        String event = redis.opsForList().rightPop(key,0,TimeUnit.SECONDS);
+                        dispather(event);
+                    }catch (Exception e)
+                    {
+                        logger.error(e.getMessage());
+                        break;
+                    }
                 }
             }
         });
