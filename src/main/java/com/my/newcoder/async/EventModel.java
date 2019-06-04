@@ -7,7 +7,7 @@ import java.util.Map;
 public class EventModel
 {
     private EventType type;
-    private int actorId;  //触发者
+    private int actorId;  //触发者ID
     private int entityType;      //entityType和entityId共同代表目标实体
     private int entityId;
     private int entityOwnerId;  //实体所属用户的ID

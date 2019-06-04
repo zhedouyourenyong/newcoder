@@ -64,9 +64,10 @@ public class FollowController
         }
 
         boolean result = followService.unfollow(hostHolder.getUser().getId(), EntityType.ENTITY_USER, userId);
-        eventProducer.fireEvent(new EventModel(EventType.UNFOLLOW)
-                .setActorId(hostHolder.getUser().getId()).setEntityId(userId)
-                .setEntityType(EntityType.ENTITY_USER).setEntityOwnerId(userId));
+//        取消关注不发送异步事件了
+//        eventProducer.fireEvent(new EventModel(EventType.UNFOLLOW)
+//                .setActorId(hostHolder.getUser().getId()).setEntityId(userId)
+//                .setEntityType(EntityType.ENTITY_USER).setEntityOwnerId(userId));
 
         // 返回关注的人数
         return JsonUtil.getJSONString(result ? 0 : 1, String.valueOf(followService.getFolloweeCount(hostHolder.getUser().getId(), EntityType.ENTITY_USER)));

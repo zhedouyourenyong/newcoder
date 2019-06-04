@@ -28,7 +28,7 @@ public class EventConsumer
     private ExecutorService workerGroup= Executors.newFixedThreadPool(4);
 
     @Autowired
-    StringRedisTemplate redis;
+    StringRedisTemplate stringRedisTemplate;
 
     @PostConstruct
     public void startUp() throws Exception
@@ -62,24 +62,19 @@ public class EventConsumer
     {
         //boss不断的从redis中获取事件，然后交给workerGroup处理，自己并不做处理
         String key = RedisKeyUtil.getEventQueueKey();
-        Thread boss = new Thread(new Runnable()
-        {
-            @Override
-            public void run ()
+        Thread boss = new Thread(()->{
+            while (true)
             {
-                while (true)
+                try
                 {
-                    try
-                    {
-                        if(!redis.hasKey(key))
-                            continue;
-                        String event = redis.opsForList().rightPop(key,0,TimeUnit.SECONDS);
-                        dispather(event);
-                    }catch (Exception e)
-                    {
-                        logger.error(e.getMessage());
-                        break;
-                    }
+                    if(!stringRedisTemplate.hasKey(key))
+                        continue;
+                    String event = stringRedisTemplate.opsForList().rightPop(key,0,TimeUnit.SECONDS);
+                    dispather(event);
+                }catch (Exception e)
+                {
+                    logger.error(e.getMessage());
+                    break;
                 }
             }
         });

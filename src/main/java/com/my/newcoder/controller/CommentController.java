@@ -1,5 +1,8 @@
 package com.my.newcoder.controller;
 
+import com.my.newcoder.async.EventModel;
+import com.my.newcoder.async.EventProducer;
+import com.my.newcoder.async.EventType;
 import com.my.newcoder.model.Comment;
 import com.my.newcoder.model.EntityType;
 import com.my.newcoder.model.HostHolder;
@@ -33,6 +36,8 @@ public class CommentController
     QuestionService questionService;
     @Autowired
     SensitiveService sensitiveService;
+    @Autowired
+    EventProducer eventProducer;
 
     //问题评论的接口
     @RequestMapping(path = {"/addComment"}, method = {RequestMethod.POST})
@@ -54,11 +59,15 @@ public class CommentController
             comment.setEntityType(EntityType.ENTITY_QUESTION);
             comment.setCreatedDate(new Date());
             comment.setStatus(0);
-
             commentService.addComment(comment);
+
             // 更新题目里的评论数量,应该为异步处理
             int count = commentService.getCommentCount(comment.getEntityId(), comment.getEntityType());
             questionService.updateCommentCount(comment.getEntityId(), count);
+
+            eventProducer.fireEvent(new EventModel(EventType.COMMENT).setActorId(comment.getUserId())
+                    .setEntityId(questionId));
+
         } catch (Exception e)
         {
             logger.error("增加评论失败" + e.getMessage());
