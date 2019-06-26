@@ -1,8 +1,6 @@
 package com.my.newcoder.controller;
 
 
-import com.my.newcoder.dao.QuestionDao;
-import com.my.newcoder.dao.UserDao;
 import com.my.newcoder.model.*;
 import com.my.newcoder.service.CommentService;
 import com.my.newcoder.service.FollowService;
@@ -37,7 +35,7 @@ public class IndexController
     @Autowired
     HostHolder hostHolder;
 
-    //    首页
+
     @RequestMapping(path = "/")
     public String index (Model model)
     {

@@ -21,7 +21,7 @@ public class EventProducer
     private Logger logger= LoggerFactory.getLogger(EventProducer.class);
 
     @Autowired
-    StringRedisTemplate redis;
+    StringRedisTemplate stringRedisTemplate;
 
     public boolean fireEvent(EventModel event)
     {
@@ -29,7 +29,7 @@ public class EventProducer
         {
             String json= JSON.toJSONString(event);
             String key = RedisKeyUtil.getEventQueueKey();
-            redis.opsForList().rightPush(key,json);
+            stringRedisTemplate.opsForList().leftPush(key,json);
             return true;
         }catch (Exception e)
         {

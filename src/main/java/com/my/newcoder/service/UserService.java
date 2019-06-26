@@ -32,10 +32,12 @@ public class UserService
         if(StringUtils.isBlank(userName))
         {
             resp.put(Constant.MSG, "用户名不能为空");
+            return resp;
         }
         if(StringUtils.isBlank(password))
         {
             resp.put(Constant.MSG, "密码不能为空");
+            return resp;
         }
         User user = userDao.selectByName(userName);
         if(user != null)
@@ -51,8 +53,6 @@ public class UserService
         user.setHeadUrl(head);
         user.setPassword(MD5Util.MD5(password + user.getSalt()));
         userDao.addUser(user);
-
-
         return resp;
     }
 

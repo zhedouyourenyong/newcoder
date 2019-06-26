@@ -23,12 +23,14 @@ public class FollowService
     {
         String followerKey = RedisKeyUtil.getFollowerKey(entityType, entityId);  //跟随者
         String followeeKey = RedisKeyUtil.getFolloweeKey(userId, entityType);   //关注者
+
         Date date = new Date();
         stringRedisTemplate.setEnableTransactionSupport(true);
         stringRedisTemplate.multi();
         stringRedisTemplate.opsForZSet().add(followerKey, String.valueOf(userId), date.getTime());  //粉丝列表
         stringRedisTemplate.opsForZSet().add(followeeKey, String.valueOf(entityId), date.getTime()); //我的关注列表
         List<Object> result = stringRedisTemplate.exec();
+
         return checkTransactionResult(result);
     }
 
@@ -37,20 +39,25 @@ public class FollowService
     {
         String followerKey = RedisKeyUtil.getFollowerKey(entityType, entityId);
         String followeeKey = RedisKeyUtil.getFolloweeKey(userId, entityType);
-        Date date = new Date();
+
         stringRedisTemplate.setEnableTransactionSupport(true);
         stringRedisTemplate.multi();
         stringRedisTemplate.opsForZSet().remove(followerKey, String.valueOf(userId));  //粉丝列表
         stringRedisTemplate.opsForZSet().remove(followeeKey, String.valueOf(entityId)); //我的关注列表
         List<Object> result = stringRedisTemplate.exec();
+
         return checkTransactionResult(result);
     }
 
     private boolean checkTransactionResult(List<Object> result)
     {
+        if(result==null||result.size()==0)
+            return false;
+
         int flag=1;
         if(result.get(0) instanceof Long)
             flag=0;
+
         for(Object object:result)
         {
             if(flag==1&&(Boolean)object==false)
@@ -126,5 +133,4 @@ public class FollowService
         }
         return ids;
     }
-
 }

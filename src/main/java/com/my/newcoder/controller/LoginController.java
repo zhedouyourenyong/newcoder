@@ -78,7 +78,7 @@ public class LoginController
                     cookie.setMaxAge(3600 * 6);  //有效期六个小时
                 }
 
-                //假设这里是登录异常
+//                假设这里是IP登录异常
 //                EventModel test=new EventModel(EventType.LOGIN)
 //                        .setExt("username", username)
 //                        .setExt("email", "1124212685@qq.com")

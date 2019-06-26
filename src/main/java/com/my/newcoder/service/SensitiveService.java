@@ -19,36 +19,19 @@ public class SensitiveService implements InitializingBean
 
     private static final Logger logger = LoggerFactory.getLogger(SensitiveService.class);
 
-    /**
-     * 默认敏感词替换符
-     */
     private static final String DEFAULT_REPLACEMENT = "敏感词";
 
 
     private class TrieNode
     {
-
-        /**
-         * true 关键词的终结 ； false 继续
-         */
         private boolean end = false;
-
-        /**
-         * key下一个字符，value是对应的节点
-         */
         private Map<Character, TrieNode> subNodes = new HashMap<>();
 
-        /**
-         * 向指定位置添加节点树
-         */
         void addSubNode (Character key, TrieNode node)
         {
             subNodes.put(key, node);
         }
 
-        /**
-         * 获取下个节点
-         */
         TrieNode getSubNode (Character key)
         {
             return subNodes.get(key);
@@ -72,16 +55,9 @@ public class SensitiveService implements InitializingBean
 
     }
 
-
-    /**
-     * 根节点
-     */
     private TrieNode rootNode = new TrieNode();
 
 
-    /**
-     * 判断是否是一个符号
-     */
     private boolean isSymbol (char c)
     {
         int ic = (int) c;
@@ -89,10 +65,6 @@ public class SensitiveService implements InitializingBean
         return !CharUtils.isAsciiAlphanumeric(c) && (ic < 0x2E80 || ic > 0x9FFF);
     }
 
-
-    /**
-     * 过滤敏感词
-     */
     public String filter (String text)
     {
         if(StringUtils.isBlank(text))

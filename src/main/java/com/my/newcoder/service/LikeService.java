@@ -32,7 +32,7 @@ public class LikeService
     public long like(int userId, int entityType, int entityId)
     {
         String likeKey = RedisKeyUtil.getLikeKey(entityType, entityId);
-        stringRedisTemplate.opsForSet().add(likeKey, String.valueOf(userId));
+        stringRedisTemplate.opsForSet().add(likeKey, String.valueOf(userId));  //该实体的喜欢者都有谁
 
         String disLikeKey = RedisKeyUtil.getDisLikeKey(entityType, entityId);
         stringRedisTemplate.opsForSet().remove(disLikeKey, String.valueOf(userId));

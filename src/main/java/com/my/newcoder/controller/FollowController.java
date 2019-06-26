@@ -45,6 +45,7 @@ public class FollowController
         }
 
         boolean result = followService.follow(hostHolder.getUser().getId(), EntityType.ENTITY_USER, userId);
+
         eventProducer.fireEvent(new EventModel(EventType.FOLLOW)
                 .setActorId(hostHolder.getUser().getId()).setEntityId(userId)
                 .setEntityType(EntityType.ENTITY_USER).setEntityOwnerId(userId));
